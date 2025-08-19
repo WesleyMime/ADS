@@ -1,30 +1,51 @@
 programa {
+  inclua biblioteca Tipos
+
+  const inteiro QUANTIDADE_SEMESTRES = 4
+
   funcao inicio() {
-    real primeiro, segundo, terceiro, quarto
+    cadeia notasCadeia[QUANTIDADE_SEMESTRES]
+    real notas[QUANTIDADE_SEMESTRES]
+    
+    para (inteiro i = 0; i < QUANTIDADE_SEMESTRES; i++) {
+      logico valido = falso
+      enquanto (nao valido) {
+        cadeia nota
+        escreva("Nota do semestre " + (i+1) + ": ")
+        leia(nota)
+        valido = notaValida(nota)
+        notasCadeia[i] = nota
+      }
+    }
 
-    escreva("Nota do semestre 1: ")
-    leia(primeiro)
-    escreva("Nota do semestre 2: ")
-    leia(segundo)
-    escreva("Nota do semestre 3: ")
-    leia(terceiro)
-    escreva("Nota do semestre 4: ")
-    leia(quarto)
+    notas = converterNotasParaReal(notasCadeia, notas)
 
-    real media = calcularMedia(primeiro, segundo, terceiro, quarto)
+    real media = calcularMedia(notas)
 
     inteiro notaMinima = 6
     se (media >= notaMinima) {
       escreva("Aluno aprovado, nota:  " + media)
       retorne
-    } senao { 
-      escreva("Aluno reprovado, nota: " + media)
-    }
+    }    
+    escreva("Aluno reprovado, nota: " + media)
   }
 
-  funcao real calcularMedia(real primeiro, real segundo, real terceiro, real quarto) {
-      inteiro semestres = 4
-      real soma = primeiro + segundo + terceiro + quarto
-      retorne soma / semestres
+  funcao logico notaValida(cadeia nota) {
+    retorne Tipos.cadeia_e_inteiro(nota, 10) ou Tipos.cadeia_e_real(nota)
+  }
+
+  funcao real converterNotasParaReal(cadeia notasCadeia[], real notas[]) {
+    para (inteiro i = 0; i < QUANTIDADE_SEMESTRES; i++) {
+      notas[i] = Tipos.cadeia_para_real(notasCadeia[i])
+    }
+    retorne notas
+  }
+
+  funcao real calcularMedia(real notas[]) {
+    real soma = 0
+    para (inteiro i = 0; i < QUANTIDADE_SEMESTRES; i++) {
+      soma += notas[i]
+    }
+    retorne soma / QUANTIDADE_SEMESTRES
   }
 }
